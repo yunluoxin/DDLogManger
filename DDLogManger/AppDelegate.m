@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import "AppDelegate+Log.h"
+#import "DDLogManager.h"
+#import "ViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -16,7 +18,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+   
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds] ;
+    
+    self.window.rootViewController = [ViewController new]  ;
+    
+//    [DDLogManager sharedLogManager].allowedLog = YES ;
+    
+    [self dd_showLogs] ;
+    
+    
+    [self.window makeKeyAndVisible] ;
+    
     return YES;
 }
 
