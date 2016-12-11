@@ -114,7 +114,7 @@
     if (!_logWindow) {
         _logWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 100, 100, 44) ] ;
         _logWindow.hidden = NO ;
-        _logWindow.rootViewController = [UIViewController new] ;
+        _logWindow.rootViewController = [LogWindowRootController new] ;
     }
     return _logWindow ;
 }
@@ -179,4 +179,14 @@
         view.frame = frame ;
     }
 }
+@end
+
+
+@implementation LogWindowRootController
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO ;
+}
+
 @end

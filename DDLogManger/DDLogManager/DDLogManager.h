@@ -23,3 +23,7 @@
 
 + (BOOL)deleteFileAtPath:(NSString *)filePath ;
 @end
+
+@interface LogWindowRootController : UIViewController
+
+@end

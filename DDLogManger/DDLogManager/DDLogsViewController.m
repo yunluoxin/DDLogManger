@@ -14,12 +14,12 @@
 @property (nonatomic, strong) UITableView * tableView ;
 
 /**
-    数据源 -- 从目录中读取的logs
+ 数据源 -- 从目录中读取的logs
  */
 @property (nonatomic, strong) NSMutableArray * logs ;
 
 /**
-    当前选中的logs
+ 当前选中的logs
  */
 @property (nonatomic, strong) NSMutableArray * selectedLogs ;
 @end
@@ -38,7 +38,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(close)] ;
     
     [self.view addSubview:self.tableView] ;
-
+    
     [self setupDeleteButton] ;
 }
 
@@ -72,7 +72,7 @@
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier ] ;
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] ;
-
+        
     }
     
     cell.textLabel.text = self.logs[indexPath.row] ;
@@ -104,6 +104,7 @@
     NSString *fileName = self.logs[indexPath.row] ;
     NSString *filePath = [[DDLogManager sharedLogManager].logsDirectory stringByAppendingPathComponent:fileName] ;
     vc.filePath = filePath ;
+    vc.title = fileName ;
     vc.whenPopVC = ^(){
         [wself.logs removeObject:fileName] ;
         [wself.tableView reloadData] ;
