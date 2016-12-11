@@ -13,8 +13,14 @@
 
 @property (nonatomic, strong) UITableView * tableView ;
 
+/**
+    数据源 -- 从目录中读取的logs
+ */
 @property (nonatomic, strong) NSMutableArray * logs ;
 
+/**
+    当前选中的logs
+ */
 @property (nonatomic, strong) NSMutableArray * selectedLogs ;
 @end
 
@@ -24,6 +30,8 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"日志列表" ;
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor purpleColor] ;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit)] ;
     
@@ -118,6 +126,8 @@
     
     if (self.tableView.isEditing) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(edit)] ;
+        
+        //完成--就清理刚刚选中的logs
         self.selectedLogs = nil ;
     }else{
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit)] ;

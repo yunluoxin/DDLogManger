@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "AppDelegate+Log.h"
 #import "DDLogManager.h"
 #import "ViewController.h"
 @interface AppDelegate ()
@@ -25,8 +24,8 @@
     
 //    [DDLogManager sharedLogManager].allowedLog = YES ;
     
-    [self dd_showLogs] ;
-    
+//    [self dd_showLogs] ;
+    [[DDLogManager sharedLogManager] dd_showLogs] ;
     
     [self.window makeKeyAndVisible] ;
     

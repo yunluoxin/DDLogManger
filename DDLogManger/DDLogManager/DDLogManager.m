@@ -12,6 +12,7 @@
 
 @interface DDLogManager ()
 
+@property (nonatomic, strong) UIWindow * logWindow ;
 
 @end
 
@@ -36,6 +37,12 @@
 
 - (void)configure
 {
+    
+#ifndef DEBUG
+    //非Debug环境，直接返回
+    return ;
+#endif
+    
     if (self.allowedLog == NO) {
         return ;
     }
@@ -100,5 +107,76 @@
 - (NSString *)logsDirectory
 {
     return LogsSavedDirectory ;
+}
+
+- (UIWindow *)logWindow
+{
+    if (!_logWindow) {
+        _logWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 100, 100, 44) ] ;
+        _logWindow.hidden = NO ;
+        _logWindow.rootViewController = [UIViewController new] ;
+    }
+    return _logWindow ;
+}
+
+- (void)dd_showLogs
+{
+#ifndef DEBUG
+    return ;
+#endif
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (!self.logWindow) {
+            @throw [NSException exceptionWithName:@"DDLogsFailureAddedException" reason:@"您必须在创建window之后再使用dd_showLogs" userInfo:nil] ;
+            return ;
+        }
+        
+        if (!self.logWindow.rootViewController) {
+            @throw [NSException exceptionWithName:@"DDLogsFailureAddedException" reason:@"您必须在设置rootViewController之后再使用dd_showLogs" userInfo:nil] ;
+            return ;
+        }
+        
+        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom] ;
+        [button setTitle:@"查看日志" forState:UIControlStateNormal] ;
+        [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal] ;
+        button.backgroundColor = [UIColor greenColor] ;
+        button.frame = self.logWindow.bounds ;
+        [button addTarget:self action:@selector(dd_click) forControlEvents:UIControlEventTouchUpInside] ;
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dd_moveButton:)] ;
+        [button addGestureRecognizer:pan] ;
+        [self.logWindow addSubview:button] ;
+        
+    }) ;
+    
+}
+
+- (void)dd_click
+{
+    UIWindow * window = [UIApplication sharedApplication].keyWindow ;
+    if (window.rootViewController && window.rootViewController.isViewLoaded) {
+        Class clazz = NSClassFromString(@"DDLogsViewController");
+        if (clazz) {
+            UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[clazz new] ] ;
+            [window.rootViewController presentViewController:nav animated:YES completion:nil] ;
+        }
+    }
+}
+
+- (void)dd_moveButton:(UIPanGestureRecognizer *)pan
+{
+    if (pan.state == UIGestureRecognizerStateChanged) {
+        
+        UIWindow * window = [UIApplication sharedApplication].keyWindow ;
+        
+        CGPoint movement = [pan translationInView:window] ;
+        [pan setTranslation:CGPointZero inView:window] ;
+        
+        UIView * view = self.logWindow ;
+        CGRect frame = view.frame ;
+        frame.origin.x = frame.origin.x + movement.x ;
+        frame.origin.y = frame.origin.y + movement.y ;
+        view.frame = frame ;
+    }
 }
 @end

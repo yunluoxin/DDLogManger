@@ -16,7 +16,6 @@
 		4E8E2F3C1DFAED6F00A8CA25 /* DDLogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E2F3B1DFAED6F00A8CA25 /* DDLogManager.m */; };
 		4E8E2F3F1DFAFB0E00A8CA25 /* DDLogsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E2F3E1DFAFB0E00A8CA25 /* DDLogsViewController.m */; };
 		4E8E2F421DFB03CF00A8CA25 /* DDLogsDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E2F411DFB03CF00A8CA25 /* DDLogsDetailController.m */; };
-		4E8E2F451DFB074A00A8CA25 /* AppDelegate+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E2F441DFB074A00A8CA25 /* AppDelegate+Log.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,8 +35,6 @@
 		4E8E2F3E1DFAFB0E00A8CA25 /* DDLogsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLogsViewController.m; sourceTree = "<group>"; };
 		4E8E2F401DFB03CF00A8CA25 /* DDLogsDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLogsDetailController.h; sourceTree = "<group>"; };
 		4E8E2F411DFB03CF00A8CA25 /* DDLogsDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLogsDetailController.m; sourceTree = "<group>"; };
-		4E8E2F431DFB074A00A8CA25 /* AppDelegate+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Log.h"; sourceTree = "<group>"; };
-		4E8E2F441DFB074A00A8CA25 /* AppDelegate+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+Log.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +98,6 @@
 				4E8E2F3E1DFAFB0E00A8CA25 /* DDLogsViewController.m */,
 				4E8E2F401DFB03CF00A8CA25 /* DDLogsDetailController.h */,
 				4E8E2F411DFB03CF00A8CA25 /* DDLogsDetailController.m */,
-				4E8E2F431DFB074A00A8CA25 /* AppDelegate+Log.h */,
-				4E8E2F441DFB074A00A8CA25 /* AppDelegate+Log.m */,
 			);
 			path = DDLogManager;
 			sourceTree = "<group>";
@@ -179,7 +174,6 @@
 			files = (
 				4E8E2F271DFADA6F00A8CA25 /* ViewController.m in Sources */,
 				4E8E2F3F1DFAFB0E00A8CA25 /* DDLogsViewController.m in Sources */,
-				4E8E2F451DFB074A00A8CA25 /* AppDelegate+Log.m in Sources */,
 				4E8E2F241DFADA6F00A8CA25 /* AppDelegate.m in Sources */,
 				4E8E2F421DFB03CF00A8CA25 /* DDLogsDetailController.m in Sources */,
 				4E8E2F3C1DFAED6F00A8CA25 /* DDLogManager.m in Sources */,
@@ -332,6 +326,7 @@
 				4E8E2F351DFADA6F00A8CA25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

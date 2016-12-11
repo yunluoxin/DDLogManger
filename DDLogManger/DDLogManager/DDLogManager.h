@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface DDLogManager : NSObject
 
 @property (nonatomic, assign)BOOL allowedLog ;
 
 @property (nonatomic, readonly)NSString * logsDirectory ;
-
+- (void)dd_showLogs ;
 + (instancetype)sharedLogManager ;
 
 + (NSArray *)namesOfFilesAtLogsDirectory ;
