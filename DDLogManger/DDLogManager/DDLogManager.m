@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UIWindow * logWindow ;
 
+@property (nonatomic, weak  ) UIWindow * originKeyWindow ;
 @end
 
 @implementation DDLogManager
@@ -126,13 +127,16 @@
 #endif
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow ;
         
-        if (!self.logWindow) {
+        self.originKeyWindow = keyWindow ;
+        
+        if (!keyWindow) {
             @throw [NSException exceptionWithName:@"DDLogsFailureAddedException" reason:@"您必须在创建window之后再使用dd_showLogs" userInfo:nil] ;
             return ;
         }
         
-        if (!self.logWindow.rootViewController) {
+        if (!keyWindow.rootViewController) {
             @throw [NSException exceptionWithName:@"DDLogsFailureAddedException" reason:@"您必须在设置rootViewController之后再使用dd_showLogs" userInfo:nil] ;
             return ;
         }
@@ -153,12 +157,11 @@
 
 - (void)dd_click
 {
-    UIWindow * window = [UIApplication sharedApplication].keyWindow ;
-    if (window.rootViewController && window.rootViewController.isViewLoaded) {
+    if (self.originKeyWindow && self.originKeyWindow.rootViewController && self.originKeyWindow.rootViewController.isViewLoaded) {
         Class clazz = NSClassFromString(@"DDLogsViewController");
         if (clazz) {
             UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[clazz new] ] ;
-            [window.rootViewController presentViewController:nav animated:YES completion:nil] ;
+            [self.originKeyWindow.rootViewController presentViewController:nav animated:YES completion:nil] ;
         }
     }
 }
@@ -167,10 +170,19 @@
 {
     if (pan.state == UIGestureRecognizerStateChanged) {
         
-        UIWindow * window = [UIApplication sharedApplication].keyWindow ;
+        if (!self.originKeyWindow)
+        {
+            return ;
+        }else
+        {
+            //2016.12.12 修复bug ，由于高德地图等原因， 关闭后，logWindow成为了主window，需要进行重置，否则出错。
+            if ([UIApplication sharedApplication].keyWindow == self.logWindow) {
+                [self.originKeyWindow makeKeyWindow] ;
+            }
+        }
         
-        CGPoint movement = [pan translationInView:window] ;
-        [pan setTranslation:CGPointZero inView:window] ;
+        CGPoint movement = [pan translationInView:self.originKeyWindow] ;
+        [pan setTranslation:CGPointZero inView:self.originKeyWindow] ;
         
         UIView * view = self.logWindow ;
         CGRect frame = view.frame ;
