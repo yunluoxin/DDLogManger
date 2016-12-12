@@ -25,6 +25,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [[self alloc] init] ;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:manager selector:@selector(changeKeyWindow:) name:UIWindowDidBecomeKeyNotification object:nil] ;
     });
     return manager ;
 }
@@ -169,18 +171,6 @@
 - (void)dd_moveButton:(UIPanGestureRecognizer *)pan
 {
     if (pan.state == UIGestureRecognizerStateChanged) {
-        
-        if (!self.originKeyWindow)
-        {
-            return ;
-        }else
-        {
-            //2016.12.12 修复bug ，由于高德地图等原因， 关闭后，logWindow成为了主window，需要进行重置，否则出错。
-            if ([UIApplication sharedApplication].keyWindow == self.logWindow) {
-                [self.originKeyWindow makeKeyWindow] ;
-            }
-        }
-        
         CGPoint movement = [pan translationInView:self.originKeyWindow] ;
         [pan setTranslation:CGPointZero inView:self.originKeyWindow] ;
         
@@ -190,6 +180,26 @@
         frame.origin.y = frame.origin.y + movement.y ;
         view.frame = frame ;
     }
+}
+
+
+- (void)changeKeyWindow:(NSNotification * )note
+{
+    if (!self.originKeyWindow)
+    {
+        return ;
+    }else
+    {
+        //2016.12.12 修复bug ，由于高德地图等原因， 关闭后，logWindow成为了主window，需要进行重置，否则出错。
+        if ([UIApplication sharedApplication].keyWindow == self.logWindow) {
+            [self.originKeyWindow makeKeyWindow] ;
+        }
+    }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self] ;
 }
 @end
 
