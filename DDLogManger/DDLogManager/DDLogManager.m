@@ -68,7 +68,11 @@
     
     NSString *filePath = [dir stringByAppendingFormat:@"/%@.log",formatStr] ;
     NSLog(@"%@",filePath) ;
-    freopen([filePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+    
+    freopen([filePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stdout);
+    
+    //have to write this, because even you don't use NSLog or you have redifine NSLog, many logs in system library use stderr to output.
+    freopen([filePath cStringUsingEncoding:NSASCIIStringEncoding], "a++", stderr);
 }
 
 + (NSArray *)namesOfFilesAtLogsDirectory
