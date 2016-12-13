@@ -22,10 +22,11 @@
     
     self.window.rootViewController = [ViewController new]  ;
     
-//    [DDLogManager sharedLogManager].allowedLog = YES ;
+    [DDLogManager sharedLogManager].allowedLog = YES ;
+
+    [DDLogManager sharedLogManager].needConsoleOutput = YES ;
     
-//    [self dd_showLogs] ;
-    [[DDLogManager sharedLogManager] dd_showLogs] ;
+    [DDLogManager sharedLogManager].showLogsList = NO ;
     
     [self.window makeKeyAndVisible] ;
     
