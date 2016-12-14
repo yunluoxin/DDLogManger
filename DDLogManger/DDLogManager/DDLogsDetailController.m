@@ -23,6 +23,11 @@
     [self.view addSubview:self.textView] ;
     
     self.textView.text = [DDLogManager contentsAtPath:self.filePath] ;
+    
+    //如果有控制台，就把UITextView往上缩点，以免被控制台遮挡住
+    if ([DDLogManager sharedLogManager].needConsoleOutput) {
+        _textView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0) ;
+    }
 }
 
 - (void)delete

@@ -26,7 +26,7 @@
 
     [DDLogManager sharedLogManager].needConsoleOutput = YES ;
     
-    [DDLogManager sharedLogManager].showLogsList = NO ;
+    [DDLogManager sharedLogManager].showLogsList = YES ;
     
     [self.window makeKeyAndVisible] ;
     

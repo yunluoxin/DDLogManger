@@ -127,9 +127,24 @@
     if (!_latestLogPath) {
         return ;
     }
+
     NSError * error ;
     NSString * text = [[NSString alloc] initWithContentsOfFile:_latestLogPath encoding:NSUTF8StringEncoding error:&error] ;
+    
+    /*-if we don't compare the lastest text to the previout text, the logTextView would scroll every 0.2s, so we can't scroll textView manaunly to see previous output.-*/
+    
+    //console didn't change
+    if (self.logTextView.text.length == text.length) {
+        return ;
+    }
+    
+    //only file changed did we change textView's text...
     self.logTextView.text = text ;
+    
+    //滚动到日志最后一行
+    NSRange range = NSMakeRange(text.length - 1 , 0) ;
+    [self.logTextView scrollRangeToVisible:range] ;
+    
     if (error) {
         [_timer invalidate] ;
         _timer = nil ;
@@ -144,9 +159,18 @@
         Class clazz = NSClassFromString(@"DDLogsViewController");
         if (clazz) {
             UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[clazz new] ] ;
-            [self.originKeyWindow.rootViewController presentViewController:nav animated:YES completion:nil] ;
+            UIViewController * currentFirstVC = [self currentFirstViewController:self.originKeyWindow.rootViewController] ;
+            [currentFirstVC presentViewController:nav animated:YES completion:nil] ;
         }
     }
+}
+
+- (UIViewController *)currentFirstViewController:(UIViewController *)vc
+{
+    if (vc.presentedViewController) {
+        return [self currentFirstViewController:vc] ;
+    }
+    return vc ;
 }
 
 - (void)dd_moveWindow:(UIPanGestureRecognizer *)pan
@@ -265,7 +289,7 @@
 - (NSTimer *)timer
 {
     if (!_timer) {
-        _timer = [NSTimer timerWithTimeInterval:0.8 target:self selector:@selector(scanFileChange) userInfo:nil repeats:YES] ;
+        _timer = [NSTimer timerWithTimeInterval:0.4 target:self selector:@selector(scanFileChange) userInfo:nil repeats:YES] ;
         [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes] ;
     }
     return _timer ;
